@@ -1,0 +1,40 @@
+`timescale 1ns/1ps
+
+module register4_tb;
+
+reg clk;
+reg reset;
+reg [3:0] d;
+wire [3:0] q;
+
+// Instantiate the register
+register4 uut (
+    .clk(clk),
+    .reset(reset),
+    .d(d),
+    .q(q)
+);
+
+// Clock generation (10 ns period)
+always #5 clk = ~clk;
+
+initial
+begin
+    clk = 0;
+    reset = 1;
+    d = 4'b0000;
+
+    // Reset the register
+    #10 reset = 0;
+
+    // Apply different input values
+    #10 d = 4'b0011;
+    #10 d = 4'b1010;
+    #10 d = 4'b1111;
+    #10 d = 4'b0101;
+    #10 d = 4'b1001;
+
+    #20 $finish;
+end
+
+endmodule
